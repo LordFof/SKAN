@@ -26,18 +26,18 @@ jobs:
         with:
           gradle-version: "8.7"
 
-      - name: Show project structure
+      - name: Extract SKAN project
         run: |
-          echo "Current directory:"
-          pwd
-          echo "Project files:"
-          find . -maxdepth 3 -type f | sort
+          unzip -o SKAN.zip
+          echo "Extracted project:"
+          find SKAN -maxdepth 3 -type f | sort
 
       - name: Build debug APK
+        working-directory: SKAN
         run: gradle assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: SKAN-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: SKAN/app/build/outputs/apk/debug/app-debug.apk
